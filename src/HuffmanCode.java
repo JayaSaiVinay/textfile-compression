@@ -106,7 +106,7 @@ public class HuffmanCode {
 
         Files.write(Paths.get(outputFilePath), decodedString.getBytes());
     }
-    
+
     private static Node buildTreeFromCode(Map<Character, String> huffmanCode) {
         Node root = new Node(null, 0);
         for (Map.Entry<Character, String> entry : huffmanCode.entrySet()) {
@@ -130,6 +130,18 @@ public class HuffmanCode {
         return root;
     }
 
+    public static void stats(String uncompressedFilePath, String compressedFilePath){
+        File uncompressedFile = new File(uncompressedFilePath);
+        File compressedFile = new File(compressedFilePath);
+        // The compression ratio is the ratio of the number of bytes in the uncompressed representation 
+        // to the number of bytes in the compressed representation.
+        double uncompressedFileSizeMB = uncompressedFile.length() / Math.pow(10, 6);
+        double compressedFileSizeMB = compressedFile.length() / Math.pow(10, 6);
+        System.out.println("Size of Uncompressed File is : " + uncompressedFileSizeMB + "MB");
+        System.out.println("Size of Compressed File is : " + compressedFileSizeMB + "MB");
+        System.out.println("Compression Ratio is: " + compressedFileSizeMB / uncompressedFileSizeMB);
+    }
+
     public static void main(String[] args) {
         try {
             String inputFilePath = "/home/saivinay/Desktop/textfile-compression/test_files/test.txt"; 
@@ -138,6 +150,7 @@ public class HuffmanCode {
 
             compressFile(inputFilePath, compressedFilePath);
             decompressFile(compressedFilePath, decompressedFilePath);
+            stats(inputFilePath, compressedFilePath);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
